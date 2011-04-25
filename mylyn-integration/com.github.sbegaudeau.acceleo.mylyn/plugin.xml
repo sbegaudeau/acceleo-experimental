@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.mylyn.commons.notifications.notifications">
+      <category
+            icon="icons/Acceleo_logo.png"
+            id="com.github.sbegaudeau.acceleo.mylyn.category"
+            label="%acceleoMylynCategory">
+      </category>
+      <event
+            categoryId="com.github.sbegaudeau.acceleo.mylyn.category"
+            icon="icons/Acceleo_logo.png"
+            id="com.github.sbegaudeau.acceleo.mylyn.generation.event"
+            label="%acceleoMylynGenerationEvent"
+            selected="true">
+         <defaultHandler
+               sinkId="org.eclipse.mylyn.commons.notifications.sink.Popup">
+         </defaultHandler>
+         <description>
+            %acceleoMylynGenerationEventDescription
+         </description>
+      </event>
+   </extension>
+
+</plugin>

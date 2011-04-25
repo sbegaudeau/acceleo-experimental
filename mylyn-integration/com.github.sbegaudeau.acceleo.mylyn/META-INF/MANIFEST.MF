@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.github.sbegaudeau.acceleo.mylyn;singleton:=true
+Bundle-Version: 3.1.0.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.acceleo.engine,
+ org.eclipse.acceleo.traceability.model,
+ org.eclipse.mylyn.commons.notifications,
+ org.eclipse.core.runtime,
+ org.eclipse.swt
