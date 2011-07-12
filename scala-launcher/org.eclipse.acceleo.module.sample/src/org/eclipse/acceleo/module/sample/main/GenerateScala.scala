@@ -69,25 +69,31 @@ object GenerateScala {
 
 
 /**
- * This allows clients to instantiates a generator with all required information.
- * 
- * @param model
- *            We'll iterate over the content of this element to find Objects matching the first parameter
- *            of the template we need to call.
- * @param targetFolder
- *            This will be used as the output folder for this generation : it will be the base path
- *            against which all file block URLs will be resolved.
- * @param arguments
- *            If the template which will be called requires more than one argument taken from the model,
- *            pass them here.
- * @throws IOException
- *             This can be thrown in two scenarios : the module cannot be found, or it cannot be loaded.
+ * This is the entry point of the generation.
  * @author Stephane Begaudeau
  */
 class GenerateScala extends AbstractAcceleoGenerator {
 	
+	/**
+	 * The list of properties files.
+	 */
 	private val propertiesFilesList = new ArrayList[String]()
 	
+	/**
+	 * This allows clients to instantiates a generator with all required information.
+	 * 
+	 * @param model
+	 *            We'll iterate over the content of this element to find Objects matching the first parameter
+	 *            of the template we need to call.
+	 * @param targetFolder
+	 *            This will be used as the output folder for this generation : it will be the base path
+	 *            against which all file block URLs will be resolved.
+	 * @param arguments
+	 *            If the template which will be called requires more than one argument taken from the model,
+	 *            pass them here.
+	 * @throws IOException
+	 *             This can be thrown in two scenarios : the module cannot be found, or it cannot be loaded.
+	 */
 	def this(model: EObject, targetFolder: File, arguments: List[Object]) {
 		this()
 		initialize(model, targetFolder, java.util.Arrays.asList(arguments.toArray: _*))
