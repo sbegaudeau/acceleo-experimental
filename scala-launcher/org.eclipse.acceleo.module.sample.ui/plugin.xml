@@ -11,9 +11,9 @@
                <groupMarker name="acceleo"/> 
          </menu>
          <action
-               class="org.eclipse.acceleo.module.sample.ui.popupMenus.AcceleoGenerateScalaGenerateAction"
+               class="org.eclipse.acceleo.module.sample.ui.popupMenus.AcceleoGenerateScalaAction"
                enablesFor="+"
-               id="org.eclipse.acceleo.module.sample.ui.popupMenus.acceleoGenerateScalaGenerateAction"
+               id="org.eclipse.acceleo.module.sample.ui.popupMenus.acceleoGenerateScalaAction"
                icon="icons/default.gif"
                label="Generate Scala Generate"
                menubarPath="org.eclipse.acceleo.module.menu/acceleo"/>
