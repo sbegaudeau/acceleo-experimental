@@ -29,6 +29,8 @@ import java.lang.reflect.InvocationTargetException
 import org.eclipse.ui.PlatformUI
 import java.util.ArrayList
 import org.eclipse.acceleo.module.sample.ui.common.GenerateAllScala
+import org.eclipse.core.resources.IResource
+import org.eclipse.core.runtime.NullProgressMonitor
 
 /**
  * Scala Generate code generation.
@@ -37,7 +39,7 @@ class AcceleoGenerateScalaAction extends ActionDelegate with IActionDelegate {
 	/**
 	 * Selected model files.
 	 */
-	protected var files: List[IFile] = Nil
+	protected var files = List[IFile]()
 	
 	/**{@inheritDoc}
 	 *
@@ -45,12 +47,12 @@ class AcceleoGenerateScalaAction extends ActionDelegate with IActionDelegate {
 	 */
 	override def selectionChanged(action: IAction, selection: ISelection): Unit = {
 		selection match {			
-			case structuredSelection: IStructuredSelection => 
-				for(i <- 0 to structuredSelection.toList().size() - 1) yield {
-					structuredSelection.toList().get(i) match {
-						case iFile: IFile => iFile
+			case structuredSelection: IStructuredSelection =>
+				for(obj <- structuredSelection.toArray) {
+					obj match {
+						case iFile: IFile => files = iFile :: files 
 					}
-				} :: files
+				}
 		}
 	}
 	
@@ -63,29 +65,28 @@ class AcceleoGenerateScalaAction extends ActionDelegate with IActionDelegate {
 			val operation = new IRunnableWithProgress() {
 				override def run(progressMonitor: IProgressMonitor) {
 					try {
-						for(i <- 0 to files.size) {
-							val model = files(i)
-							val modelURI = URI.createPlatformResourceURI(model.getFullPath().toString(), true);
-							try {
-								val target = model.getProject.getFolder("src-gen")
-								val generator = new GenerateAllScala(modelURI, target, getArguments)
-								generator.doGenerate(progressMonitor)
-							} catch {
-								case ex : IOException =>
-									val status: IStatus = new Status(IStatus.ERROR, ActivatorScala.PLUGIN_ID, ex.getMessage, ex)
-									ActivatorScala.getDefault.getLog.log(status)
-							}
+						for(model: IFile <-files) {
+							val modelURI: URI = URI.createPlatformResourceURI(model.getFullPath().toString(), true);
+							val target = model.getProject.getFolder("src-gen")
+							val generator = new GenerateAllScala(modelURI, target, getArguments)
+							generator.doGenerate(progressMonitor)
 						}
 					} catch {
 						case e: CoreException => 
 							val status: IStatus = new Status(IStatus.ERROR, ActivatorScala.PLUGIN_ID, e.getMessage, e)
 							ActivatorScala.getDefault.getLog.log(status)
+						case e : IOException =>
+							val status: IStatus = new Status(IStatus.ERROR, ActivatorScala.PLUGIN_ID, e.getMessage, e)
+							ActivatorScala.getDefault.getLog.log(status)
 					}
 				}
 			}
-			
+
 			try {
-				PlatformUI.getWorkbench.getProgressService.run(true, true, operation)
+				PlatformUI.getWorkbench.getProgressService.run(false, true, operation)
+				for(model: IFile <-files) {
+					model.getProject.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor)
+				}
 			} catch {
 				case e: InvocationTargetException =>
 					val status: IStatus = new Status(IStatus.ERROR, ActivatorScala.PLUGIN_ID, e.getMessage, e)
@@ -103,6 +104,6 @@ class AcceleoGenerateScalaAction extends ActionDelegate with IActionDelegate {
 	 * @return the arguments
 	 */
 	protected def getArguments: List[Object] = {
-		Nil
+		List[Object]()
 	}
 }
