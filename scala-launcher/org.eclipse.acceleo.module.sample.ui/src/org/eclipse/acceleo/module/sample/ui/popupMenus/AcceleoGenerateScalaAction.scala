@@ -12,7 +12,6 @@
 package org.eclipse.acceleo.module.sample.ui.popupMenus
 
 import org.eclipse.ui.actions.ActionDelegate
-import org.eclipse.ui.IActionDelegate
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.action.IAction
 import org.eclipse.core.resources.IFile
@@ -35,7 +34,7 @@ import org.eclipse.core.runtime.NullProgressMonitor
 /**
  * Scala Generate code generation.
  */
-class AcceleoGenerateScalaAction extends ActionDelegate with IActionDelegate {
+class AcceleoGenerateScalaAction extends ActionDelegate {
 	/**
 	 * Selected model files.
 	 */
